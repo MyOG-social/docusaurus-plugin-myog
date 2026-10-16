@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "rootDir": "src",
+    "outDir": "lib",
+    "types": ["@docusaurus/module-type-aliases"]
+  },
+  "include": ["src/components/**/*.tsx", "src/client/**/*.ts"]
+}

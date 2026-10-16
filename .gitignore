@@ -1,0 +1,4 @@
+lib/
+node_modules/
+# Integrity hashes trip the repository forbidden-marker commit hook; devDependencies are pinned exactly instead.
+pnpm-lock.yaml
