@@ -1,6 +1,6 @@
 {
   "name": "docusaurus-plugin-myog",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Adds a MyOG.social og:image and twitter:image to every Docusaurus page, generated from each page's URL",
   "keywords": [
     "docusaurus",
@@ -28,8 +28,8 @@
     "node": ">=20.11.0"
   },
   "peerDependencies": {
-    "@docusaurus/core": "3.10.2",
-    "@docusaurus/types": "3.10.2",
+    "@docusaurus/core": ">=3.10.0 <4.0.0",
+    "@docusaurus/types": ">=3.10.0 <4.0.0",
     "react": "^18.0.0 || ^19.0.0"
   },
   "peerDependenciesMeta": {

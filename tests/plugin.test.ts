@@ -9,7 +9,7 @@ import { buildImageURL } from "../src/client/imageURL"
 import { findConflicts } from "../src/conflicts"
 import pluginMyOG from "../src/index"
 import { DEFAULT_TEMPLATE, normalizeOptions } from "../src/options"
-import { assertSupportedVersion, wrapSiteMetadata } from "../src/siteMetadata"
+import { assertSupportedVersion, SUPPORTED_CORE_RANGE, wrapSiteMetadata } from "../src/siteMetadata"
 
 const packageDir = dirname(fileURLToPath(new URL("../package.json", import.meta.url)))
 const manifest = JSON.parse(readFileSync(join(packageDir, "package.json"), "utf8"))
@@ -97,20 +97,38 @@ test("missing or competing alias contracts fail with recovery instructions", () 
   ]) {
     assert.throws(
       () => wrapSiteMetadata({ aliases, wrapper }),
-      /Cannot wrap.*Use Docusaurus 3\.10\.2.*manual|Cannot wrap.*https:\/\/myog.social\/docs\/docusaurus/
+      /Cannot wrap.*supported Docusaurus release \(>=3\.10\.0 <4\.0\.0\).*manual|Cannot wrap.*https:\/\/myog.social\/docs\/docusaurus/
     )
   }
 })
 
-test("compatibility is bounded to the tested core release", () => {
-  assertSupportedVersion("3.10.2")
-  for (const version of ["3.10.1", "3.10.3", "3.11.0", "4.0.0-alpha.0"]) {
+test("compatibility is bounded to stable Docusaurus 3 releases from 3.10.0", () => {
+  for (const version of ["3.10.0", "3.10.1", "3.10.2", "3.10.9", "3.11.0", "3.99.0"]) {
+    assertSupportedVersion(version)
+  }
+  for (const version of [
+    "3.9.2",
+    "3.9.99",
+    "2.4.3",
+    "4.0.0",
+    "4.0.0-canary-6937",
+    "3.9.2-alpha.4",
+    "3.10.3-alpha.0",
+    "3.10.0-beta.1",
+    "3.10",
+    "v3.10.2",
+    "3.10.2 ",
+    "3.10.x",
+    "",
+  ]) {
     assert.throws(
       () => assertSupportedVersion(version),
-      /is not supported.*Use @docusaurus\/core 3.10.2/
+      /is not supported.*stable @docusaurus\/core >=3\.10\.0 <4\.0\.0/
     )
   }
-  assert.equal(manifest.peerDependencies["@docusaurus/core"], "3.10.2")
+  assert.equal(SUPPORTED_CORE_RANGE, ">=3.10.0 <4.0.0")
+  assert.equal(manifest.peerDependencies["@docusaurus/core"], SUPPORTED_CORE_RANGE)
+  assert.equal(manifest.peerDependencies["@docusaurus/types"], SUPPORTED_CORE_RANGE)
 })
 
 test("client and server hooks preserve the same alias and never provide a Root", () => {

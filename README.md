@@ -13,12 +13,16 @@ the image service requires a paid plan or card trial.
 
 ## Requirements and tested support
 
-- Docusaurus **3.10.2**. The peer and runtime checks require that exact release.
-  Other releases need compatibility verification before widening support.
+- Docusaurus **3.10 or a later 3.x release**: stable `@docusaurus/core`
+  `>=3.10.0 <4.0.0`. Tested with 3.10.0 and 3.10.2. The runtime check rejects
+  older releases, prereleases and Docusaurus 4, which is not supported yet.
+- Docusaurus 3.10.0 itself fails plain webpack builds with webpack 5.106 or
+  newer, before any plugin runs (its webpackbar 6 dependency). 3.10.1 fixed
+  this. Use 3.10.1 or later, or Rspack.
 - Tested with the classic preset, React/react-dom **19.3.1** and **18.3.1**,
   Node.js **24.1.0** and **20.11.0**, plain **webpack** and **Rspack** builds.
-  Rspack uses `@docusaurus/faster` 3.10.2 with `future.v4: true`; the webpack
-  fixture explicitly disables `future.v4` and `future.faster`.
+  Rspack uses `@docusaurus/faster` at the core version with `future.v4: true`;
+  the webpack fixture explicitly disables `future.v4` and `future.faster`.
   These are representative combinations, not every combination of those values.
 - Node.js 20.11.0 or newer is required. Later Node releases are not all tested.
 - A MyOG account with the site's domain registered and an active subscription
@@ -31,17 +35,16 @@ the image service requires a paid plan or card trial.
 The integration uses the documented `configureWebpack` hook, but remapping the
 resolved theme alias and relying on core App's metadata render order are
 **undocumented internal contracts**. The build fails if the required alias is
-missing, unsafe to wrap, or the core version is unsupported. Keep this exact
-Docusaurus version until a newer release has been checked. See
+missing, unsafe to wrap, or the core version is unsupported. See
 [DEVELOPMENT.md](https://github.com/MyOG-social/docusaurus-plugin-myog/blob/main/DEVELOPMENT.md)
 for the verification recipe.
 
 ## Install
 
-In your Docusaurus 3.10.2 site:
+In your Docusaurus 3.10+ site:
 
 ```sh
-pnpm add --save-exact docusaurus-plugin-myog@0.1.0
+pnpm add docusaurus-plugin-myog@^0.2.0
 ```
 
 Add the plugin to `docusaurus.config.ts` (or `.js`):
