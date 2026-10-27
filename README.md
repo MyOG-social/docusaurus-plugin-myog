@@ -66,6 +66,18 @@ Run `pnpm run build`, then inspect the generated HTML's `<head>`. Each image
 should appear once. On pages without an override, the MyOG URL's `url` parameter
 should decode to that page's `og:url`.
 
+## Check a deployed page
+
+After deploying, paste a public page URL into MyOG's free
+[Open Graph Checker](https://myog.social/tools/og-preview) and confirm the image
+loads. The build output shows the tags, not whether MyOG serves the image.
+
+If the image doesn't load, check your MyOG account:
+
+- The exact hostname in your `url` setting is registered. `www.example.com` and
+  `example.com` are separate domains.
+- The account has credits available.
+
 ## Options
 
 | Option     | Required | Default            | Description                                                                                   |
